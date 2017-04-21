@@ -1,0 +1,25 @@
+{
+  "name": "google-oauth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm install && node app",
+    "start:dev": "SYNC=true NODE_ENV=development DATABASE_URL=postgres://localhost/auth_db nodemon app"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.3.4",
+    "bootstrap": "^3.3.6",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "jwt-simple": "^0.5.1",
+    "mongoose": "^4.4.11",
+    "passport": "^0.3.2",
+    "passport-google-oauth": "^1.0.0",
+    "pg": "^6.1.0",
+    "sequelize": "^3.24.3",
+    "swig": "^1.4.2"
+  }
+}

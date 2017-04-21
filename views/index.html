@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <link rel='stylesheet' href='/bootstrap/dist/css/bootstrap.css'></link>
+    <script
+  src="https://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div class='container'>
+      <h1>Hi! How about using some google oauth?</h1>
+      <a id='login' class='btn btn-primary' href='/login/google'>Log into our site from Google</a>
+      <a id='logout' class='btn btn-primary'>Log out</a>
+      <div class='well'>
+        Welcome <span id='email'></span>!
+      </div>
+      <pre style='margin: 10px 0'>
+       See it on github. <a href='https://github.com/ericpkatz/google-oauth' target='_blank'>Here</a>
+      </pre>
+    </div>
+  </body>
+  <script>
+      if(document.location.hash.slice(1, 6) === 'token'){
+        localStorage.setItem('token', document.location.hash.slice(7));
+        document.location.hash = '';
+      }
+      var token = localStorage.getItem('token');
+      $('#logout').click(function(){
+        localStorage.removeItem('token');
+        window.document.location.reload();
+      });
+      if(token){
+        $.get(`/api/session/${token}`)
+          .then(function(result){
+            $('#email').html(result.email);
+            $('#login').hide();
+          });
+      }
+      else {
+        $('#logout').hide();
+      }
+      
+  </script>
+</html>
