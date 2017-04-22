@@ -31,7 +31,6 @@ app.set('view engine', 'html');
 app.use(session({ secret: 'foo' }));
 
 app.use(passport.initialize());
-//app.use(passport.session());
 
 //if running locally you can have a file with your 'secrets'
 //if you are deployed- set environmental variables
@@ -76,32 +75,20 @@ app.get('/login/google', passport.authenticate('google', {
   session: false
 }));
 
-app.get('/success', function(req, res, next){
-  res.send('foo');
-});
-
 //here is our callback - passport will exchange token from google with a token which we can use.
 app.get('/auth/google/callback', passport.authenticate('google', {
 	failureRedirect: '/',
   session: false
 }), function(req, res,next){
-  console.log('USER', req.user);
-  var jwtToken = jwt.encode({ id: req.user.id }, 'foo');
+  var jwtToken = jwt.encode({ id: req.user.id }, process.env.JWT_SECRET);
   res.redirect(`/#token=${jwtToken}`);
-  //res.render('index');
 });
 
 app.get('/api/session/:token', (req, res, next)=> {
-  var jwtToken = jwt.decode(req.params.token, 'foo');
+  var jwtToken = jwt.decode(req.params.token, process.env.JWT_SECRET);
   User.findById(jwtToken.id)
     .then( user => res.send(user))
     .catch(next);
 });
-
-app.get('/logout/google', function(req, res, next){
-  req.session.destroy();
-  res.redirect('/');
-});
-
 
 app.listen(process.env.PORT || 3000);

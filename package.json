@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "npm install && node app",
-    "start:dev": "SYNC=true NODE_ENV=development DATABASE_URL=postgres://localhost/auth_db nodemon app"
+    "start:dev": "JWT_SECRET=beep SYNC=true NODE_ENV=development DATABASE_URL=postgres://localhost/auth_db nodemon app"
   },
   "author": "",
   "license": "ISC",
